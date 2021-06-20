@@ -1,0 +1,82 @@
+﻿@model IEnumerable<RolesDefinitivoBanco.Models.Cliente>
+
+@{
+    ViewData["Title"] = "Index";
+}
+<h1>Clientes</h1>
+
+<p>
+    <a asp-action="Create">Crear nuevo cliente</a>
+</p>
+
+@*Recordar que el campo name se utiliza para enviar lo que se recoge del cliente al código para utilizarlo con nuestros métodos.*@
+<form asp-action="Index" method="get">
+
+    <div class="form-action no-color">
+        <p>
+            Búsqueda: <input type="text" value="@ViewData["CurrentFilter"]" name="searchString" />
+            <input type="text" value="@ViewData["CurrentFilter1"]" name="balance" />
+            <input type="submit" value="Buscar" class="btn-dark" />
+            <a asp-action="Index">  Mostrar todos los registros:</a>
+
+        </p>
+    </div>
+
+
+</form>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Nombre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Apellido)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NúmeroCuenta)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Balance)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Sucursal)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nombre)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Apellido)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NúmeroCuenta)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Balance)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Sucursal.Nombre)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn-dark">Edit</a> 
+                    <a asp-action="Details" asp-route-id="@item.Id" class="btn-dark">Details</a> 
+                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn-dark">Delete</a>
+                    @if (User.IsInRole("admin"))
+                    {
+                        <a asp-action="Ingresar" asp-route-id="@item.Id" class="btn-dark">Ingresar</a>
+                        <a asp-action="Devolver" asp-route-id="@item.Id" class="btn-outline-dark">Retirar </a>
+
+                    }
+       
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
